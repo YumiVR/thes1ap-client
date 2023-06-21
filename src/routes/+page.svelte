@@ -1,2 +1,12 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<link rel="stylesheet" href="/styles.css">
+<div class="background">
+  <form class="login-form">
+    <h1>Log in to The S1ap</h1>
+    <input type="text" placeholder="Username" required>
+    <input type="password" placeholder="Password" required>
+    <button type="submit">Log in</button>
+    <div class="signup-link">
+      Don't have an account? <a href="http://azalea.ovh">Sign up</a>
+    </div>
+  </form>
+</div>
