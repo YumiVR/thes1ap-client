@@ -1,41 +1,20 @@
 <script>
-import {browser} from '$app/environment';
+import {test_fn} from "./network.ts";
 
-let socket;
-
-let uname = "KingJellyfish";
-let pword = "12345";
-
-let err_msg = null;
-
-function log_in() {
-    if (browser) {
-        socket = new WebSocket("ws://localhost:2345")
-        socket.addEventListener("open", (event) => {
-            socket.send(JSON.stringify({"command": "login", "uname": uname, "passwd": pword}));
-        });
-        socket.addEventListener("message", (event) => {
-            let obj = JSON.parse(event.data);
-            
-            if (obj["command"] == "login" && obj["status"] == FORBIDDEN) {
-                err_msg = "Incorrect username or password! Try again.";
-            } else if (obj["status"] != 200) {
-                err_msg = "Command '" + obj["command"] + "' failed with error code " + obj["status"];
-            } else {
-                console.log(obj);
-            }
-        });
-    }
-}
-
-function clear_error() {
-    err_msg = null;
-}
 </script>
 
-<p>test</p>
-<a href="/home">test</a>
 {#if err_msg != null}
 <div>{err_msg}<button on:click={clear_error}>Ok</button></div>
 {/if}
-<button on:click={log_in}>Log in</button>
+<link rel="stylesheet" href="/styles.css">
+<div class="background">
+  <form class="login-form">
+    <h1>Log in to The S1ap</h1>
+    <input type="text" placeholder="Username" required bind:value={uname}>
+    <input type="password" placeholder="Password" required bind:value={pword}>
+    <button type="submit" on:click={test_fn}>Log in</button>
+    <div class="signup-link">
+      Don't have an account? <a href="/home">Sign up</a>
+    </div>
+  </form>
+</div>
