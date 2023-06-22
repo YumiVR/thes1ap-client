@@ -3,10 +3,8 @@ const HTTP_OK = 200;
 const HTTP_FORBIDDEN = 403;
 let socket: WebSocket;
 
-let uname = "";
-let pword = "";
-let my_uuid: string | null = null;
-let err_msg: string | null = null;
+export let my_uuid: string | null = null;
+export let err_msg: string | null = null;
 
 interface Peer {
     myString: string;
@@ -15,9 +13,13 @@ interface Peer {
 
 let known_peers: Map<string, Peer>;
 
-function log_in() {
+export function log_in(uname: string, pword: string) {
     if (browser) {
-        socket = new WebSocket("ws://localhost:2345")
+        socket = new WebSocket("ws://localhost:2345");
+        socket.addEventListener("error", (error) => {
+            err_msg = "Could not connect to server: " + error;
+            console.log(err_msg);
+        });
         socket.addEventListener("open", (event) => {
             socket.send(JSON.stringify({"command": "login", "uname": uname, "passwd": pword}));
         });
@@ -40,6 +42,10 @@ function log_in() {
     }
 }
 
-function clear_error() {
+export function clear_error() {
     err_msg = null;
+}
+
+export function add_error(error: string) {
+    err_msg = error;
 }
